@@ -57,10 +57,10 @@ function createStyle() {
     input[type=range] { width:100%; margin-top:10px; cursor:pointer; }
     .frequencyDisplay { text-align:center; font-size:21px; font-weight:bold; margin-top:6px; }
     .volumeDisplay { text-align:center; font-size:17px; font-weight:bold; margin-top:4px; }
-    .buttons { display:grid; grid-template-columns:repeat(4,1fr); gap:9px; margin-top:17px; }
+    .buttons { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; margin-top:17px; }
     button { min-height:45px; font-size:17px; font-weight:bold; border:none; border-radius:10px; cursor:pointer; background:#e5e5e5; transition:transform .05s,background .15s; }
     button:active { transform:scale(.97); }
-    #bothButton { background:#b9e6c7; } #leftButton { background:#c8ddff; } #rightButton { background:#ffd2d2; } #stopButton { background:#ddd; }
+    #playButton { background:#b9e6c7; } #stopButton { background:#ddd; }
     .status { margin-top:14px; padding:10px; text-align:center; font-weight:bold; font-size:18px; border-radius:8px; background:#eee; }
     .notice { margin-top:12px; text-align:center; font-size:12px; line-height:1.5; color:#666; }
     .customWaveArea { display:none; margin:8px 0 15px; padding:10px; border:1px solid #cbd5e1; border-radius:10px; background:#fff; }
@@ -115,16 +115,16 @@ function buildUI() {
   const app = document.getElementById("signalGeneratorApp");
   app.innerHTML = `
     <div class="title">Dual Channel Signal Generator</div>
-    <div class="subtitle">LEFT / RIGHT controls · Mono audio output for iOS · Custom waveform drawing</div>
+    <div class="subtitle">Dual frequency controls · Mono audio output · Custom waveform drawing</div>
     <div class="channels">
       ${channelMarkup("L", "LEFT")}
       ${channelMarkup("R", "RIGHT")}
     </div>
     <div class="buttons">
-      <button id="bothButton">Both</button><button id="leftButton">Left</button><button id="rightButton">Right</button><button id="stopButton">Stop</button>
+      <button id="playButton">Play</button><button id="stopButton">Stop</button>
     </div>
     <div id="statusText" class="status">STOPPED</div>
-    <div class="notice">LEFT and RIGHT signals are mixed together into one mono output (heard on both sides of headphones/speakers). Custom waveforms are drawn from left to right; the drawing repeats as one cycle.</div>
+    <div class="notice">Both signal channels are mixed into one mono output and played through both sides of headphones/speakers. Press Play to start both signals together. Custom waveforms are drawn from left to right; the drawing repeats as one cycle.</div>
   `;
 
   freqInputL = document.getElementById("freqInputL"); freqInputR = document.getElementById("freqInputR");
@@ -141,9 +141,7 @@ function buildUI() {
   waveR.addEventListener("change", () => { toggleCustomArea("R"); updateWaveform(); });
   volumeL.addEventListener("input", () => { volumeDisplayL.textContent = volumeL.value + " %"; updateVolume(); });
   volumeR.addEventListener("input", () => { volumeDisplayR.textContent = volumeR.value + " %"; updateVolume(); });
-  document.getElementById("bothButton").addEventListener("click", () => startAudio("both"));
-  document.getElementById("leftButton").addEventListener("click", () => startAudio("left"));
-  document.getElementById("rightButton").addEventListener("click", () => startAudio("right"));
+  document.getElementById("playButton").addEventListener("click", () => startAudio("both"));
   document.getElementById("stopButton").addEventListener("click", stopAudio);
   setupCustomWaveDrawing("L", customWaveL);
   setupCustomWaveDrawing("R", customWaveR);
@@ -391,7 +389,7 @@ async function startAudio(mode) {
       return;
     }
     playMode=mode; updateFrequency(); updateWaveform(); updateVolume();
-    if (mode==="both") statusText.textContent="PLAYING : LEFT + RIGHT (MONO)";
+    if (mode==="both") statusText.textContent="PLAYING : BOTH SIGNALS (MONO)";
     else if (mode==="left") statusText.textContent="PLAYING : LEFT ONLY (MONO)";
     else if (mode==="right") statusText.textContent="PLAYING : RIGHT ONLY (MONO)";
   } catch (err) {
