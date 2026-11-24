@@ -1,19 +1,22 @@
-Dual Channel Signal Generator - Mono Play/Stop Package
+Unified Mono Signal Generator
 
-Files:
-- index.html : page entry point (loads p5.js from CDN)
-- sketch.js  : signal generator script
+This build combines LEFT and RIGHT channel controls into one unified signal.
 
 Features:
-- LEFT and RIGHT frequency/waveform/volume settings remain independent
-- Play starts both signals together; Stop stops playback
-- Mono audio mix (heard on both sides)
-- Custom waveform drawing, preview, repeat cycles, smoothing and normalization
-- Mobile touch drawing and responsive layout
+- One frequency control (20 Hz to 20,000 Hz)
+- One waveform selector: sine, square, triangle, sawtooth, or custom drawing
+- One volume control
+- Shared custom waveform drawing canvas and live corrected preview
+- Repeat cycles (1-8), smoothing, and amplitude normalization
+- Play and Stop controls
+- Mono signal sent to both speaker/headphone sides
+- Responsive PC/mobile UI and touch drawing
+- iOS Safari audio-context resume support
 
 To deploy on GitHub Pages:
-1. Extract the ZIP.
-2. Upload index.html and sketch.js to the root of your Pages repository.
-3. Commit/push. Wait for Pages deployment.
+1. Extract this ZIP.
+2. Replace the repository's index.html and sketch.js with these files.
+3. Commit and push the changes.
+4. Wait for GitHub Pages to publish.
 
-Audio playback requires a user gesture (tap/click Play). Runtime testing on physical iOS/Android devices was not performed.
+Audio has been syntax-checked, but not tested on physical devices.
